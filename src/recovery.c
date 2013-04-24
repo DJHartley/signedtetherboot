@@ -154,13 +154,13 @@ int recovery_enter_restore(struct idevicerestore_client_t* client, plist_t build
 		}
 	}
 
-	if ((client->build[0] > '8') && !(client->flags & FLAG_CUSTOM)) {
+//	if ((client->build[0] > '8') && !(client->flags & FLAG_CUSTOM)) {
 		/* send ApTicket */
 		if (recovery_send_ticket(client) < 0) {
 			error("ERROR: Unable to send APTicket\n");
 			return -1;
 		}
-	}
+//	}
 
 	if (recovery_set_autoboot(client, 0) < 0) {
 		return -1;
@@ -177,10 +177,10 @@ int recovery_enter_restore(struct idevicerestore_client_t* client, plist_t build
 	}
 
 	/* send ramdisk and run it */
-	if (recovery_send_ramdisk(client, build_identity) < 0) {
-		error("ERROR: Unable to send Ramdisk\n");
-		return -1;
-	}
+//	if (recovery_send_ramdisk(client, build_identity) < 0) {
+//		error("ERROR: Unable to send Ramdisk\n");
+//		return -1;
+//	}
 
 	/* send devicetree and load it */
 	if (recovery_send_devicetree(client, build_identity) < 0) {

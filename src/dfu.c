@@ -255,10 +255,10 @@ int dfu_enter_recovery(struct idevicerestore_client_t* client, plist_t build_ide
 		return -1;
 	}
 
-	if (client->build[0] > '8') {
+//	if (client->build[0] > '8') {
 		/* reconnect */
 		dfu_client_free(client);
-		sleep(1);
+		sleep(3);
 		dfu_client_new(client);
 
 		/* get nonce */
@@ -319,7 +319,7 @@ int dfu_enter_recovery(struct idevicerestore_client_t* client, plist_t build_ide
 			irecv_close(client->dfu->client);
 			return -1;
 		}
-	}
+//	}
 
 	dfu_client_free(client);
 

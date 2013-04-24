@@ -659,7 +659,7 @@ int main(int argc, char* argv[]) {
 		sleep(7);
 	}
 
-	if (client->build[0] > '8') {
+//	if (client->build[0] > '8') {
 		// we need another tss request with nonce.
 		unsigned char* nonce = NULL;
 		int nonce_size = 0;
@@ -701,7 +701,7 @@ int main(int argc, char* argv[]) {
 			}
 			fixup_tss(client->tss);
 		}
-	}
+//	}
 
 	// now finally do the magic to put the device into restore mode
 	if (client->mode->index == MODE_RECOVERY) {
@@ -720,7 +720,8 @@ int main(int argc, char* argv[]) {
 
 	// device is finally in restore mode, let's do this
 	if (client->mode->index == MODE_RESTORE) {
-		info("About to restore device... \n");
+		info("About to restore device (not really)... \n");
+                exit(-1);
 		if (restore_device(client, build_identity, filesystem) < 0) {
 			error("ERROR: Unable to restore device\n");
 			return -1;
@@ -1175,6 +1176,14 @@ int ipsw_get_component_by_path(const char* ipsw, plist_t tss, const char* compon
 		return -1;
 	}
 
+       if (strcasestr(component_name, "iBEC") ||
+           strcasestr(component_name, "Ramdisk") ||
+           strcasestr(component_name, "AppleLogo") ||
+           strcasestr(component_name, "DeviceTree") ||
+           strcasestr(component_name, "Kernel")
+           ) 
+           goto end;
+
 	if (tss) {
 		img3 = img3_parse_file(component_data, component_size);
 		if (img3 == NULL) {
@@ -1217,6 +1226,8 @@ int ipsw_get_component_by_path(const char* ipsw, plist_t tss, const char* compon
 		}
 		img3_free(img3);
 	}
+
+end:
 
 	if (idevicerestore_debug) {
 		write_file(component_name, component_data, component_size);
